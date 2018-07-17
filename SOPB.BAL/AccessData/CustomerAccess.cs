@@ -142,7 +142,7 @@ namespace BAL.AccessData
         internal static void Vapidated()
         {
             var err = from customer in _tables.CustomerDataTable.AsEnumerable()
-                      where customer.Field<DateTime?>("Birthday").HasValue && customer.Field<DateTime?>("Birthday") >=  DateTime.Now
+                      where customer.Field<DateTime?>("Birthday").HasValue && customer.Field<DateTime?>("Birthday") >= DateTime.Now
                       select new
                       {
                           CustomerID = customer.Field<int>("CustomerID"),
@@ -157,7 +157,93 @@ namespace BAL.AccessData
             {
                 _tables.ErrorDataTable.Rows.Add(item.CustomerID, item.LastName + " " + item.FirstName, item.Error);
             }
-       
+
+            var err2 = from customer in _tables.RegisterDataTable.AsEnumerable()
+                       where customer.Field<DateTime?>("FirstRegister").HasValue && customer.GetParentRow("FK_Register_Customer_CustomerID").Field<DateTime?>("Birthday").HasValue
+                       && customer.Field<DateTime?>("FirstRegister") <= customer.GetParentRow("FK_Register_Customer_CustomerID").Field<DateTime?>("Birthday")
+                       select new
+                       {
+                           CustomerID = customer.Field<int>("CustomerID"),
+                           LastName = customer.GetParentRow("FK_Register_Customer_CustomerID").Field<string>("LastName"),
+                           FirstName = customer.Field<DateTime?>("FirstRegister"),
+                           MiddleName = customer.GetParentRow("FK_Register_Customer_CustomerID").Field<DateTime?>("Birthday"),
+                           Error = "Дата первого раза взятия на учёт раньше даты рождения"
+                       };
+            foreach (var item in err2)
+            {
+                _tables.ErrorDataTable.Rows.Add(item.CustomerID, item.LastName + " " + item.FirstName, item.Error);
+            }
+            var err3 = from customer in _tables.RegisterDataTable.AsEnumerable()
+                       where customer.Field<DateTime?>("FirstDeRegister").HasValue && customer.Field<DateTime?>("FirstRegister").HasValue
+                       && customer.Field<DateTime?>("FirstRegister") >= customer.Field<DateTime?>("FirstDeRegister")
+                       select new
+                       {
+                           CustomerID = customer.Field<int>("CustomerID"),
+                           LastName = customer.GetParentRow("FK_Register_Customer_CustomerID").Field<string>("LastName"),
+                           FirstName = customer.Field<DateTime?>("FirstRegister"),
+                           MiddleName = customer.Field<DateTime?>("FirstDeRegister"),
+                           Error = "Дата первого раза взятия на учёт позже даты снятия с учёта"
+                       };
+            foreach (var item in err3)
+            {
+                _tables.ErrorDataTable.Rows.Add(item.CustomerID, item.LastName + " " + item.FirstName, item.Error);
+            }
+        }
+        internal static void Vapidated(DataRowView row)
+        {
+            DateTime? firstRegister = (DateTime?)row["FirstRegister"];
+            DateTime? firstDeRegister = (DateTime?)row["FirstDeRegister"];
+            DateTime? secondRegister = (DateTime?)row["SecondRegister"];
+            DateTime? secondDeRegister = (DateTime?)row["SecondDeRegister"];
+            int customerId = (int)row["CustomerID"];
+           // string lastName = row.Row.GetParentRow("FK_Register_Customer_CustomerID").Field<string>("LastName");
+            if (firstRegister.HasValue)
+            {
+                if(firstDeRegister.HasValue && (firstRegister >= firstDeRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(customerId,
+                        firstRegister.Value.ToShortDateString() + " >= " + firstDeRegister.Value.ToShortDateString(),
+                        "Дата 1-го взятия на учёт позже даты 1-го снятия с учёта");
+                }
+                if (secondRegister.HasValue && (firstRegister >= secondRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(
+                            customerId,
+                            firstRegister.Value.ToShortDateString() + " >= " + secondRegister.Value.ToShortDateString(),
+                            "Дата 1-го взятия на учёт позже даты повторного взятия на учёта"
+                        );
+                }
+                if (secondDeRegister.HasValue && (firstRegister >= secondDeRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(customerId,
+                        firstRegister.Value.ToShortDateString() + " >= " + secondDeRegister.Value.ToShortDateString(),
+                        "Дата 1-го взятия на учёт позже даты повторного снятия с учёта");
+                }
+            }
+            if (firstDeRegister.HasValue)
+            {                
+                if (secondRegister.HasValue && (firstDeRegister >= secondRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(customerId,
+                        firstDeRegister.Value.ToShortDateString() + " >= " + secondRegister.Value.ToShortDateString(),
+                        "Дата 1-го снятия с учёта позже даты повторного взятия на учёт");
+                }
+                if (secondDeRegister.HasValue && (firstDeRegister >= secondDeRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(customerId,
+                        firstDeRegister.Value.ToShortDateString() + " >= " + secondDeRegister.Value.ToShortDateString(),
+                        "Дата 1-го снятия с учёта позже даты повторного снятия с учёта");
+                }
+            }
+            if (secondRegister.HasValue)
+            {               
+                if (secondDeRegister.HasValue && (secondRegister >= secondDeRegister))
+                {
+                    _tables.ErrorDataTable.Rows.Add(customerId,
+                        secondRegister.Value.ToShortDateString() + " >= " + secondDeRegister.Value.ToShortDateString(),
+                        "Дата повторногого взятия на учёт позже даты повторного снятия с учёта");
+                }
+            }
         }
 
         public static void GetCustomersByID(int idx)

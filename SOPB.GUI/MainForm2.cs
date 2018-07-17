@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using BAL.ORM;
+using BAL.ORM.Repository;
 using NLog;
 using SOPB.Accounting.DAL.ConnectionManager;
 using SOPB.GUI.DialogForms;
@@ -168,18 +169,6 @@ namespace SOPB.GUI
             _addressBindingSource.DataSource = _customerBindingSource;
             _addressBindingSource.DataMember = "FK_Address_Customer_CustomerID";
 
-            //comboBoxAdminDivision.DataSource = adminDivisionBindingSource;
-            //comboBoxAdminDivision.ValueMember = "AdminDivisionID";
-            //comboBoxAdminDivision.DataBindings.Clear();
-            //comboBoxAdminDivision.DataBindings.Add("SelectedValue", addressBindingSource, "AdminDivisionID");
-            //comboBoxAdminDivision.DisplayMember = "Name";
-
-            //comboBoxTypeStreet.DataSource = typeStreetBindingSource;
-            //comboBoxTypeStreet.ValueMember = "TypeStreetID";
-            //comboBoxTypeStreet.DataBindings.Clear();
-            //comboBoxTypeStreet.DataBindings.Add("SelectedValue", addressBindingSource, "TypeStreetID");
-            //comboBoxTypeStreet.DisplayMember = "Name";
-
             textBoxNameStreet.DataBindings.Clear();
             textBoxNameStreet.DataBindings.Add("Text", _addressBindingSource, "NameStreet");
             textBoxNumberApartment.DataBindings.Clear();
@@ -187,8 +176,7 @@ namespace SOPB.GUI
             textBoxNumberHouse.DataBindings.Clear();
             textBoxNumberHouse.DataBindings.Add("Text", _addressBindingSource, "NumberHouse");
             textBoxCity.DataBindings.Clear();
-            textBoxCity.DataBindings.Add("Text", _addressBindingSource, "City");
-            //customerBindingSource.AddingNew += CustomerBindingSourceOnAddingNew;
+            textBoxCity.DataBindings.Add("Text", _addressBindingSource, "City");            
             _addressBindingSource.AddingNew += AddressBindingSourceOnAddingNew;
             //////////////////////////////////////////////////////////////////////////////////////////
             /// Binding data to Register contrls
@@ -330,8 +318,8 @@ namespace SOPB.GUI
             {
                 try
                 {
-                    CustomerService service = new CustomerService();
-                    BindingData(service.GetGlossaries());
+                    CustomRepository<string> service = new CustomRepository<string>();
+                    BindingData(service.FillAll());
                 }
                 catch (Exception exception)
                 {
@@ -397,7 +385,7 @@ namespace SOPB.GUI
         {
             try
             {
-                CustomerService service = new CustomerService();
+                CustomRepository<string> service = new CustomRepository<string>();
                 if (isLoadData)
                 {
                     _customerBindingSource.EndEdit();
@@ -406,9 +394,9 @@ namespace SOPB.GUI
                     _invalidBindingSource.EndEdit();
                     _invalidBenefitsBindingSource.EndEdit();
                 
-                    BindingData(service.UpdateAllCustomers());
+                    service.Update(null);
                 }
-                BindingData(service.FillAllCustomers());
+                BindingData(service.FillAll());
             }
             catch (Exception exception)
             {
@@ -430,8 +418,9 @@ namespace SOPB.GUI
                     _registerBindingSource.EndEdit();
                     _invalidBindingSource.EndEdit();
                     _invalidBenefitsBindingSource.EndEdit();
-                    CustomerService service = new CustomerService();
-                    BindingData(service.UpdateAllCustomers());
+                    CustomRepository<string> service = new CustomRepository<string>();
+                    service.Update(null);
+                    BindingData(service.FillAll());
                 }
             }
             catch (Exception exception)
@@ -841,12 +830,12 @@ namespace SOPB.GUI
                 if (find.ShowDialog() == DialogResult.OK)
                 {
                     string lName = find.LastName;
-                    CustomerService customer = new CustomerService();
+                    CustomRepository<string> service = new CustomRepository<string>();
                     if (isLoadData)
                     {
-                        customer.GetCustomersByLastName(lName);
+                        service.FindBy("LastName",lName);
                     }
-                    else BindingData(customer.GetCustomersByLastName(lName));
+                    else BindingData(service.FindBy("LastName",lName));
                 }
             }
             catch (Exception exception)
@@ -859,48 +848,17 @@ namespace SOPB.GUI
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            ////test
-            //// If you are not at the end of the list, move to the next item
-            //// in the BindingSource.
-            //while (true)
-            //{
+        {          
 
-
-            //    if (_customerBindingSource.Position + 1 < _customerBindingSource.Count)
-            //    {
-            //        DataRowView curr = (DataRowView)_customerBindingSource.Current;
-            //        string str = curr[3].ToString();
-            //        if (str.Length > 0 && str[0]=='\'')
-            //        {
-            //            str = str.Remove(0, 1);
-            //            // str = str.Remove(str.Length - 1);
-            //            curr[3] = str;
-
-            //        }
-            //        else
-            //        {
-            //            str = "'"+str;
-            //            curr[3] = str;
-            //        }
-
-            //        _customerBindingSource.MoveNext();
-            //    }
-            //    // Otherwise, move back to the first item.
-            //    else
-            //    {
-            //        _customerBindingSource.MoveFirst();
-            //        break;
-            //    }
-            //}
             try
             {
                 FindForm find = new FindForm();
                 if (find.ShowDialog() == OK)
                 {
-                    string lName = find.LastName;
-                    CustomerService customer = new CustomerService();
-                    customer.GetCustomersByLastName(lName);
+                    string lName = find.LastName;     
+                    CustomRepository<string> customer = new CustomRepository<string>();
+
+                    customer.FindBy("LastName", lName);
                 }
                 // Force the form to repaint.
                 this.Invalidate();
@@ -959,10 +917,7 @@ namespace SOPB.GUI
                 }
 
                 break;
-            }
-            CustomerService service = new CustomerService();
-
-            //BindingData(service.GetEmptyData());
+            }            
         }
 
         private void findByFirstNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -981,11 +936,12 @@ namespace SOPB.GUI
                 FindByBirthday findByBirthday = new FindByBirthday();
                 if (findByBirthday.ShowDialog() == OK)
                 {
-                    CustomerService customer = new CustomerService();
-                    if (isLoadData) customer.GetCustomersByBirthdayWithPredicate(findByBirthday.BithDay, findByBirthday.Predicate);
+                    CustomRepository<string> customer = new CustomRepository<string>();
+
+                    if (isLoadData) customer.FindBy("Birthday", findByBirthday.BithDay, findByBirthday.Predicate);
                     else
                     {
-                        BindingData(customer.GetCustomersByBirthdayWithPredicate(findByBirthday.BithDay, findByBirthday.Predicate));
+                        BindingData(customer.FindBy("Birthday", findByBirthday.BithDay, findByBirthday.Predicate));
                     }
                    
                 }
@@ -1007,11 +963,11 @@ namespace SOPB.GUI
                 if (find.ShowDialog() == OK)
                 {
                     string name = find.LastName;
-                    CustomerService customer = new CustomerService();
-                    if(isLoadData) customer.GetCustomerByAddress(name);
+                    CustomRepository<string> customer = new CustomRepository<string>();
+                    if (isLoadData) customer.FindBy("Address", name);
                     else
                     {
-                        BindingData(customer.GetCustomerByAddress(name));
+                        BindingData(customer.FindBy("Address", name));
                     }
                 }
             }
@@ -1031,10 +987,10 @@ namespace SOPB.GUI
             find.ShowDialog();
            
             int id = find._ID;
-            CustomerService customer = new CustomerService();
+            CustomRepository<string> customer = new CustomRepository<string>();
             try
             {
-                BindingData(customer.GetCustomerByGlossary(name, id));
+                BindingData(customer.FindByGlossary(id, name));
             }
             catch (Exception exception)
             {
@@ -1049,8 +1005,8 @@ namespace SOPB.GUI
         {
             if (!isLoadData)
             {
-                CustomerService customer = new CustomerService();
-                BindingData(customer.GetGlossaries());
+                var customer = new GlossaryRepository();
+                BindingData(customer.FillAll());
             }
             string glossary = ((ToolStripMenuItem)sender).Tag.ToString();
             DialogResult result = DialogResult.No;
@@ -1135,8 +1091,8 @@ namespace SOPB.GUI
                     _registerBindingSource.EndEdit();
                     _invalidBindingSource.EndEdit();
                     _invalidBenefitsBindingSource.EndEdit();
-                    CustomerService service = new CustomerService();
-                    service.UpdateAllCustomers();
+                    var service = new CustomRepository<string>();
+                    service.Update(null);
                 }
             }
             catch (Exception exception)
@@ -1160,8 +1116,8 @@ namespace SOPB.GUI
                     _registerBindingSource.EndEdit();
                     _invalidBindingSource.EndEdit();
                     _invalidBenefitsBindingSource.EndEdit();
-                    CustomerService service = new CustomerService();
-                    service.UpdateAllCustomers();
+                    var service = new CustomRepository<string>();
+                    service.Update(null);
                 }
             }
             catch (Exception exception)
@@ -1310,14 +1266,14 @@ namespace SOPB.GUI
 
         private void exportToExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CustomerService service = new CustomerService();
-            service.ExportToExcel();
+            CustomRepository<string> service = new CustomRepository<string>();
+            service.ExportToExcel(null);
         }
 
         private void toolStripButtonValidation_Click(object sender, EventArgs e)
         {
             _customerBindingSource.EndEdit();
-            CustomerService service = new CustomerService();
+            CustomRepository<string> service = new CustomRepository<string>();
             service.Validation();           
         }
     }

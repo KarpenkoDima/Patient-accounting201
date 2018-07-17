@@ -307,7 +307,7 @@ namespace BAL.DataTables
             //customerID.AutoIncrement = true;
             //customerID.AutoIncrementSeed = -1;
             //customerID.AutoIncrementStep = -1;
-            errorID.Unique = true;
+            errorID.Unique = false;
             errorID.ReadOnly = false;
             errorID.DataType = typeof(System.Int32);
             errorID.Caption = "CustomerID";

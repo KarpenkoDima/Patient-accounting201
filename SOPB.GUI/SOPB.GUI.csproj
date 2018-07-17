@@ -84,12 +84,6 @@
     <Compile Include="DialogForms\GlossaryForm.Designer.cs">
       <DependentUpon>GlossaryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm025.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm025.Designer.cs">
-      <DependentUpon>MainForm025.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,9 +113,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForms\GlossaryForm.resx">
       <DependentUpon>GlossaryForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm025.resx">
-      <DependentUpon>MainForm025.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm2.resx">
       <DependentUpon>MainForm2.cs</DependentUpon>
@@ -157,7 +148,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BAL\SOPB.BAL.csproj">
+    <ProjectReference Include="..\SOPB.BAL\SOPB.BAL.csproj">
       <Project>{0A2E88D8-7626-457B-BED4-8C806464B9AE}</Project>
       <Name>SOPB.BAL</Name>
     </ProjectReference>

@@ -104,16 +104,25 @@ namespace BAL.ORM.Repository
 
         object IRepository<T>.FillAll()
         {
-            throw new NotImplementedException();
+            return this.FillAll();
         }
 
         object IRepository<T>.FindByID(int id)
         {
             throw new NotImplementedException();
         }
+
+        public void Validation()
+        {
+            CustomerAccess.Vapidated();
+        }
+        public void Validated(DataRowView row)
+        {
+            CustomerAccess.Vapidated(row);
+        }
     }
 
-    internal class GlossaryRepository : RepositoryBase, IMutableRepository<Int32>
+    public class GlossaryRepository : RepositoryBase, IMutableRepository<Int32>
     {
 
         #region Override Methods

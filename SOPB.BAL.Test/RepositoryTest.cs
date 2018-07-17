@@ -59,6 +59,14 @@ namespace SOPB.BAL.Test
             DataSet ds = (DataSet)repo.FindByID(id);
             Assert.IsTrue(ds.Tables["Customer"].Rows.Count > 0);
         }
+        [TestMethod]      
+        public void Validation_Test()
+        {
+            CustomRepository<string> repo = new CustomRepository<string>();
+            DataSet ds =(DataSet)repo.FillAll();
+            repo.Validation();
+            Assert.IsTrue(ds.Tables["Error"].Rows.Count > 0);
+        }
     }
 
     static class UserSettings
