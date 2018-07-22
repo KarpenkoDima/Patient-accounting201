@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BAL.ORM;
+using BAL.ORM.Repository;
 using NLog;
 
 namespace SOPB.GUI.DialogForms
@@ -15,11 +16,12 @@ namespace SOPB.GUI.DialogForms
     public partial class GlossaryForm : Form
     {
         private BindingSource _bindingGlossary;
+       
         public GlossaryForm(string nameGlossary, BindingSource bindingGlossary)
         {
             InitializeComponent();
             _bindingGlossary = new BindingSource(bindingGlossary.DataSource, bindingGlossary.DataMember);
-            this.Text += @" " + nameGlossary;
+            this.Text += @" " + nameGlossary;           
             glossasryDataGridView.DataSource = _bindingGlossary;
             glossasryDataGridView.Columns[0].Visible = false;
             bindingNavigator1.BindingSource = _bindingGlossary;
@@ -30,8 +32,8 @@ namespace SOPB.GUI.DialogForms
             _bindingGlossary.EndEdit();
             try
             {
-                CustomerService service = new CustomerService();
-                service.SaveGlossary("Land");
+                GlossaryRepository  service = new GlossaryRepository();
+                service.SaveGlossary(_bindingGlossary.DataMember);
                 this.Close();
             }
             catch (Exception exception)
@@ -50,8 +52,8 @@ namespace SOPB.GUI.DialogForms
             try
             {
                 _bindingGlossary.EndEdit();
-                CustomerService service = new CustomerService();
-                service.SaveGlossary("Land");
+                GlossaryRepository service = new GlossaryRepository();
+                service.SaveGlossary(_bindingGlossary.DataMember);
             }
             catch (Exception exception)
             {

@@ -448,9 +448,14 @@ namespace BAL.AccessData
 
             SqlParameter parameter = new SqlParameter();
             parameter.DbType = DbType.String;
+            parameter.IsNullable = true;
             parameter.Size = 100;
             parameter.ParameterName = "@whereClasure";
-            parameter.Value = whereClasure;
+            if (string.IsNullOrWhiteSpace(whereClasure) || string.IsNullOrEmpty(whereClasure))
+            {
+                parameter.Value = DBNull.Value;
+            }
+            else parameter.Value = whereClasure;
             parameters[0] = parameter;
 
             parameter = new SqlParameter();
@@ -459,17 +464,21 @@ namespace BAL.AccessData
             parameter.Size = 100;
             if (value==null)
             {
-                parameter.Value = string.Empty;
+                parameter.Value = DBNull.Value;
             }
             else parameter.Value = value;
             parameter.IsNullable = true;
             parameters[1] = parameter;
 
             parameter = new SqlParameter();
-            parameter.DbType = DbType.String;
+            parameter.DbType = DbType.String;        
             parameter.Size = 30;
             parameter.ParameterName = "@ParamType";
-            parameter.Value = dbType;
+            if (string.IsNullOrWhiteSpace(dbType) || string.IsNullOrEmpty(dbType))
+            {
+                parameter.Value = DBNull.Value;
+            }
+            else parameter.Value = dbType;
             parameter.IsNullable = true;
             parameters[2] = parameter;
 
