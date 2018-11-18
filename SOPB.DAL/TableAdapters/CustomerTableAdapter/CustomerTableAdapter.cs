@@ -79,7 +79,8 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
                                                      + "      ,[APPPTPRID] \n"
                                                      + "      ,[GenderID] \n"
                                                      + "      ,[NotaBene] \n"
-                                                     + "  FROM [dbo].[vGetCustomersFromArch]";
+                                                     + "  FROM [dbo].[vGetCustomersFromArch]"
+                                                     + "WHERE [Birthday] IS NOT NULL OR [Birthday] IS NULL";
             this._commandCollection[3].CommandType = CommandType.Text;
         }
 

@@ -17,13 +17,18 @@ namespace SOPB.GUI.DialogForms
     {
         private BindingSource _bindingGlossary;
        
-        public GlossaryForm(string nameGlossary, BindingSource bindingGlossary)
+        public GlossaryForm(string nameGlossary, BindingSource bindingGlossary, string[] columnName)
         {
             InitializeComponent();
             _bindingGlossary = new BindingSource(bindingGlossary.DataSource, bindingGlossary.DataMember);
             this.Text += @" " + nameGlossary;           
             glossasryDataGridView.DataSource = _bindingGlossary;
             glossasryDataGridView.Columns[0].Visible = false;
+            for (int i = 0; i < columnName.Length; i++)
+            {
+                glossasryDataGridView.Columns[i+1].HeaderText = columnName[i];
+            }
+            
             bindingNavigator1.BindingSource = _bindingGlossary;
         }
 
@@ -51,12 +56,15 @@ namespace SOPB.GUI.DialogForms
         {
             try
             {
-                _bindingGlossary.EndEdit();
+                //_bindingGlossary.EndEdit();
                 GlossaryRepository service = new GlossaryRepository();
                 service.SaveGlossary(_bindingGlossary.DataMember);
             }
             catch (Exception exception)
             {
+#if DEBUG
+                MessageBox.Show(exception.Message);
+#endif
                 Logger logger = LogManager.GetCurrentClassLogger();
                 logger.Warn(exception.Message);
                 MessageBox.Show("Произошла ошибка. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);

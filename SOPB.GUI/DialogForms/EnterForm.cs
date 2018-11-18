@@ -17,7 +17,11 @@ namespace SOPB.GUI.DialogForms
         {
             InitializeComponent();
         }
-
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            textBoxLogin.Select();
+        }
         private void buttonOk_Click(object sender, EventArgs e)
         {
             if (LogInApplication.LogIn(textBoxLogin.Text, textBoxPassword.Text))

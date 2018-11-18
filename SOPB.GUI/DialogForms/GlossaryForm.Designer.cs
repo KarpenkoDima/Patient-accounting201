@@ -45,8 +45,8 @@
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.sveToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.glossasryDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -58,11 +58,14 @@
             // 
             // glossasryDataGridView
             // 
+            this.glossasryDataGridView.AllowUserToAddRows = false;
+            this.glossasryDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.glossasryDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.glossasryDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.glossasryDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.glossasryDataGridView.Location = new System.Drawing.Point(-3, 25);
             this.glossasryDataGridView.Name = "glossasryDataGridView";
-            this.glossasryDataGridView.Size = new System.Drawing.Size(295, 221);
+            this.glossasryDataGridView.Size = new System.Drawing.Size(295, 193);
             this.glossasryDataGridView.TabIndex = 0;
             // 
             // splitContainer1
@@ -209,16 +212,6 @@
             this.sveToolStripButton.Text = "Сохранить";
             this.sveToolStripButton.Click += new System.EventHandler(this.sveToolStripButton_Click);
             // 
-            // buttonOK
-            // 
-            this.buttonOK.Location = new System.Drawing.Point(12, 8);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 1;
-            this.buttonOK.Text = "ОК";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
-            // 
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -228,6 +221,16 @@
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
+            // buttonOK
+            // 
+            this.buttonOK.Location = new System.Drawing.Point(12, 8);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 1;
+            this.buttonOK.Text = "ОК";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // GlossaryForm
             // 

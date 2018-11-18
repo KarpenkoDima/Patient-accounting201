@@ -317,7 +317,7 @@ namespace BAL.DataTables
             flmColumn.AllowDBNull = true;
             flmColumn.DataType = typeof(System.String);
             flmColumn.Caption = "ФИО";
-            ErrorDataTable.Columns.Add(flmColumn);            
+            ErrorDataTable.Columns.Add(flmColumn);
 
             DataColumn errorColumn = new DataColumn("Error");
             errorColumn.AllowDBNull = true;
@@ -1033,7 +1033,9 @@ namespace BAL.DataTables
             RegisterDataTable.ExtendedProperties.Add("Customer", "CustomerData");
             InvalidDataTable.ExtendedProperties.Add("Customer", "CustomerData");
             AddressDataTable.ExtendedProperties.Add("Customer", "CustomerData");
+            
         }
 
+        
     }
 }

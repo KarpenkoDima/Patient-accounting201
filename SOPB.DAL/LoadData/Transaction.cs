@@ -82,6 +82,7 @@ namespace SOPB.Accounting.DAL.LoadData
 
         public void Commit()
         {
+            
             _transaction.Commit();
         }
 

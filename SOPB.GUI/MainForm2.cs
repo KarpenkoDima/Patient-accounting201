@@ -158,7 +158,7 @@ namespace SOPB.GUI
             comboBoxGender.DisplayMember = "Name";
 
             checkBoxArch.DataBindings.Clear();
-            checkBoxArch.DataBindings.Add("Checked", _customerBindingSource, "Arch");
+            checkBoxArch.DataBindings.Add("Checked", _customerBindingSource, "Arch");           
             //////////////////////////////////////////////////////////////////////////////////
             /// 
             _adminDivisionBindingSource.DataSource = data;
@@ -330,9 +330,12 @@ namespace SOPB.GUI
                 }
             }
 
-            textBoxFirstName.Text = textBoxLastName.Text = @"[Новое Имя]";
-                comboBoxApppTpr.SelectedIndex = comboBoxGender.SelectedIndex = 0;
-                _customerBindingSource.EndEdit();
+            comboBoxApppTpr.SelectedIndex = comboBoxGender.SelectedIndex = 0;
+            DataRowView row = _customerBindingSource.AddNew() as DataRowView;
+            row["FirstName"] = "Новое имя";
+            row["LastName"] = "Новое имя";
+            _customerBindingSource.MoveLast();
+            _customerBindingSource.EndEdit();
         }
         private void AddressBindingSourceOnAddingNew(object sender, AddingNewEventArgs e)
         {
@@ -411,7 +414,7 @@ namespace SOPB.GUI
         {
             try
             {
-                if (isLoadData)
+                if (isLoadData || _customerBindingSource.Count > 0)
                 {
                     _customerBindingSource.EndEdit();
                     _addressBindingSource.EndEdit();
@@ -420,7 +423,7 @@ namespace SOPB.GUI
                     _invalidBenefitsBindingSource.EndEdit();
                     CustomRepository<string> service = new CustomRepository<string>();
                     service.Update(null);
-                    BindingData(service.FillAll());
+                    //BindingData(service.FillAll());
                 }
             }
             catch (Exception exception)
@@ -434,14 +437,24 @@ namespace SOPB.GUI
 
         private void Cusrtomer_Validated(object sender, EventArgs e)
         {
+
             if (isLoadData)
             {
+                
+                if (_customerBindingSource.Current == null)
+                {
+                    string customerText = ((Control)sender).Text;
+                    _customerBindingSource.AddNew();                    
+                    ((Control)sender).Text = customerText;
+                }                    
                 _customerBindingSource.EndEdit();
+                CustomRepository<string> repo = new CustomRepository<string>();
+                repo.Update(null);
             }
         }
         private void Registred_Validated(object sender, EventArgs e)
         {
-            if (isLoadData)
+            if (isLoadData || _customerBindingSource.Count >=1)
             {
                 if (_registerBindingSource.Current == null)
                 {
@@ -450,13 +463,15 @@ namespace SOPB.GUI
                     ((Control)sender).Text = registerText;
                 }
                 _registerBindingSource.EndEdit();
+                CustomRepository<string> repo = new CustomRepository<string>();
+                repo.Update(null);
             }
         }
 
         private void maskedTextBoxBirthOfDay_Validating(object sender, CancelEventArgs e)
         {
             if (isLoadData)
-            {
+            {                
                 Debug.WriteLine("BirthDay");
                 if (maskedTextBoxBirthOfDay.MaskedTextProvider != null &&
                     (maskedTextBoxBirthOfDay.MaskedTextProvider.MaskCompleted))
@@ -491,15 +506,16 @@ namespace SOPB.GUI
                 }
                 else
                 {
-                    ((Control)sender).ResetText();
+                    maskedTextBoxBirthOfDay.Tag = maskedTextBoxBirthOfDay.Text;                    
+                    ((DataRowView)(_customerBindingSource.Current))[6] = DBNull.Value;
                 }
                 if (e.Cancel == false)
                 {
                     maskedTextBoxBirthOfDay.ForeColor = DefaultForeColor;
                     maskedTextBoxBirthOfDay.BackColor = Color.White;
-                    errorProviderRegDate.SetError(maskedTextBoxBirthOfDay, "");
+                    errorProviderRegDate.SetError(maskedTextBoxBirthOfDay, "");                    
                 }
-
+                
             }
         }
 
@@ -580,8 +596,13 @@ namespace SOPB.GUI
                         maskedTextBoxFirstRegister.ForeColor = Color.Red;
                         maskedTextBoxFirstRegister.BackColor = Color.Yellow;
                         e.Cancel = true;
+                        ((Control)sender).ResetText();
                     }
-                    ((Control)sender).ResetText();
+                    else if (!maskedTextBoxFirstRegister.MaskCompleted)
+                    {
+                        ((DataRowView)(_registerBindingSource.Current))["FirstRegister"] = DBNull.Value;
+                    }
+
                 }
                 if (e.Cancel == false)
                 {
@@ -674,8 +695,13 @@ namespace SOPB.GUI
                         maskedTextBoxFirstDeRegister.ForeColor = Color.Red;
                         maskedTextBoxFirstDeRegister.BackColor = Color.Yellow;
                         e.Cancel = true;
+                        ((Control)sender).ResetText();
                     }
-                    ((Control)sender).ResetText();
+                    else if (!maskedTextBoxFirstDeRegister.MaskCompleted)
+                    {
+                        ((DataRowView)(_registerBindingSource.Current))["FirstDeRegister"] = DBNull.Value;
+                    }
+                    
                 }
                 if (e.Cancel == false)
                 {
@@ -755,7 +781,11 @@ namespace SOPB.GUI
                         maskedTextBoxSecondRegister.BackColor = Color.Yellow;
                         e.Cancel = true;
                     }
-                    ((Control)sender).ResetText();
+                    else if (!maskedTextBoxSecondRegister.MaskCompleted)
+                    {
+                        ((DataRowView)(_registerBindingSource.Current))["SecondRegister"] = DBNull.Value;
+                    }
+                    else ((Control)sender).ResetText();
                 }
                 if (e.Cancel == false)
                 {
@@ -811,6 +841,10 @@ namespace SOPB.GUI
                 }
                 else
                 {
+                    if (!maskedTextBoxSecondDeRegister.MaskCompleted)
+                    {
+                        ((DataRowView)(_registerBindingSource.Current))["SecondDeRegister"] = DBNull.Value;
+                    }
                     ((Control)sender).ResetText();
                 }
                 if (e.Cancel == false)
@@ -895,6 +929,8 @@ namespace SOPB.GUI
 
                 }
                 _invalidBindingSource.EndEdit();
+                CustomRepository<string> repo = new CustomRepository<string>();
+                repo.Update(null);
             }
         }
 
@@ -1003,7 +1039,7 @@ namespace SOPB.GUI
 
         private void landsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!isLoadData)
+            if (_genderBindingSource == null || (_genderBindingSource.Current == null || _genderBindingSource.Count <=0))
             {
                 var customer = new GlossaryRepository();
                 BindingData(customer.FillAll());
@@ -1012,37 +1048,37 @@ namespace SOPB.GUI
             DialogResult result = DialogResult.No;
             if (string.Equals(glossary, "regType"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Тип регистрации", _registerTypeBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Тип регистрации", _registerTypeBindingSource, new string[] {"Тип регистрации","Описание" });
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "Disability"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Группа инвалидности", _disabilityBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Группа инвалидности", _disabilityBindingSource, new string[] { "Группа Ивалидностим", "Описание" });
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "apppTpr"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("АППП/ТПР", _apppTprBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("АППП/ТПР", _apppTprBindingSource, new string[] { "Имя"});
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "Benefits"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Льготы", _benefitsBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Льготы", _benefitsBindingSource, new string[] { "Льгота", "Описание" });
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "chiperRecept"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Шифр рецепта", _chiperBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Шифр рецепта", _chiperBindingSource, new string[] { "Шифр рецепта", "Описание" });
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "Land"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Участок", _landBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Участок", _landBindingSource, new string[] { "Участок" });
                 result = glossaryForm.ShowDialog();
             }
             else if (string.Equals(glossary, "whyDeReg"))
             {
-                GlossaryForm glossaryForm = new GlossaryForm("Причина снятия с учета", _whyDeRegisterBindingSource);
+                GlossaryForm glossaryForm = new GlossaryForm("Причина снятия с учета", _whyDeRegisterBindingSource, new string[] { "Причина снятия с учёта", "Описание" });
                 result = glossaryForm.ShowDialog();
             }
 
@@ -1136,7 +1172,7 @@ namespace SOPB.GUI
 
         private void Address_Validated(object sender, EventArgs e)
         {
-            if (isLoadData)
+            if (isLoadData || _customerBindingSource.Count >= 1)
             {
                 if (_addressBindingSource.Current == null)
                 {
@@ -1150,7 +1186,7 @@ namespace SOPB.GUI
 
         private void Invalid_Validated(object sender, EventArgs e)
         {
-            if (isLoadData)
+            if (isLoadData || _customerBindingSource.Count >=1)
             {
                 if (_invalidBindingSource.Current == null)
                 {
@@ -1275,6 +1311,11 @@ namespace SOPB.GUI
             _customerBindingSource.EndEdit();
             CustomRepository<string> service = new CustomRepository<string>();
             service.Validation();           
+        }
+
+        private void maskedTextBoxBirthOfDay_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
+        {
+
         }
     }
 }

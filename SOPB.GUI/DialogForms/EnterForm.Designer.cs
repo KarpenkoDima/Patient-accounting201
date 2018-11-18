@@ -46,7 +46,7 @@
             this.buttonClear.Location = new System.Drawing.Point(185, 94);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(80, 23);
-            this.buttonClear.TabIndex = 0;
+            this.buttonClear.TabIndex = 4;
             this.buttonClear.Text = "Очистить";
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
@@ -59,7 +59,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(97, 94);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(80, 23);
-            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
@@ -99,7 +99,7 @@
             this.textBoxLogin.Location = new System.Drawing.Point(97, 19);
             this.textBoxLogin.Name = "textBoxLogin";
             this.textBoxLogin.Size = new System.Drawing.Size(156, 20);
-            this.textBoxLogin.TabIndex = 5;
+            this.textBoxLogin.TabIndex = 0;
             this.textBoxLogin.Enter += new System.EventHandler(this.textBoxLogin_Enter);
             // 
             // textBoxPassword
@@ -107,7 +107,7 @@
             this.textBoxPassword.Location = new System.Drawing.Point(97, 58);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(156, 20);
-            this.textBoxPassword.TabIndex = 6;
+            this.textBoxPassword.TabIndex = 1;
             this.textBoxPassword.UseSystemPasswordChar = true;
             // 
             // groupBox1
