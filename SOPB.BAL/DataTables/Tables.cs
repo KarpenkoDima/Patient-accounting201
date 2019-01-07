@@ -217,6 +217,7 @@ namespace BAL.DataTables
             lastName.DataType = typeof(String);
             lastName.MaxLength = 100;
             lastName.Caption = "Фамилия";
+            lastName.DefaultValue = "@";
             CustomerDataTable.Columns.Add(lastName);
 
             DataColumn firstName = new DataColumn("FirstName");
@@ -225,6 +226,7 @@ namespace BAL.DataTables
             firstName.DataType = typeof(string);
             firstName.MaxLength = 100;
             firstName.Caption = "Имя";
+            firstName.DefaultValue = string.Empty;
             CustomerDataTable.Columns.Add(firstName);
 
             DataColumn middleName = new DataColumn("MiddleName");
@@ -258,12 +260,12 @@ namespace BAL.DataTables
             apppTprID.Caption = "АППП/ТПР";
             CustomerDataTable.Columns.Add(apppTprID);
 
-            apppTprID = new DataColumn("GenderID");
-            apppTprID.ReadOnly = false;
-            apppTprID.AllowDBNull = true;
-            apppTprID.DataType = typeof(System.Int32);
-            apppTprID.Caption = "Пол";
-            CustomerDataTable.Columns.Add(apppTprID);
+            DataColumn genderID = new DataColumn("GenderID");
+            genderID.ReadOnly = false;
+            genderID.AllowDBNull = true;
+            genderID.DataType = typeof(System.Int32);
+            genderID.Caption = "Пол";
+            CustomerDataTable.Columns.Add(genderID);
 
             DataColumn notaBene = new DataColumn("NotaBene");
             notaBene.AllowDBNull = true;
@@ -292,14 +294,14 @@ namespace BAL.DataTables
                 CustomerDataTable.Columns["GenderID"]);
             CustomerDataTable.Constraints.Add(fkc);
             fkc.AcceptRejectRule = AcceptRejectRule.None;
-            fkc.DeleteRule = Rule.SetDefault;
+            fkc.DeleteRule = Rule.SetNull;
             fkc.UpdateRule = Rule.Cascade;
 
             relation = new DataRelation("FK_Customer_Gender_GenderID", GenderDataTable.Columns[0],
                 CustomerDataTable.Columns["GenderID"], true);
             DispancerDataSet.Relations.Add(relation);
             relation.ChildKeyConstraint.AcceptRejectRule = AcceptRejectRule.None;
-            relation.ChildKeyConstraint.DeleteRule = Rule.SetDefault;
+            relation.ChildKeyConstraint.DeleteRule = Rule.SetNull;
             relation.ChildKeyConstraint.UpdateRule = Rule.Cascade;
 
             DataColumn errorID = new DataColumn("CustomerID");
@@ -361,6 +363,7 @@ namespace BAL.DataTables
             adminDivisionColumn.DataType = typeof(string);
             adminDivisionColumn.MaxLength = 30;
             adminDivisionColumn.Caption = "Полное наименование";
+            adminDivisionColumn.DefaultValue = string.Empty;
             AdminDivisionDataTable.Columns.Add(adminDivisionColumn);
 
             adminDivisionColumn = new DataColumn("SocrName");
@@ -369,6 +372,7 @@ namespace BAL.DataTables
             adminDivisionColumn.DataType = typeof(string);
             adminDivisionColumn.MaxLength = 10;
             adminDivisionColumn.Caption = "Сокращенное наименование";
+            adminDivisionColumn.DefaultValue = string.Empty;
             AdminDivisionDataTable.Columns.Add(adminDivisionColumn);
 
             DispancerDataSet.Tables.Add(AdminDivisionDataTable);
@@ -393,6 +397,7 @@ namespace BAL.DataTables
             typeStreetColumn.DataType = typeof(string);
             typeStreetColumn.MaxLength = 30;
             typeStreetColumn.Caption = "Наименование";
+            typeStreetColumn.DefaultValue = string.Empty;
             TypeStreetDataTable.Columns.Add(typeStreetColumn);
 
             typeStreetColumn = new DataColumn("SocrName");
@@ -401,6 +406,7 @@ namespace BAL.DataTables
             typeStreetColumn.DataType = typeof(string);
             typeStreetColumn.MaxLength = 10;
             typeStreetColumn.Caption = "Сокращенное наименование";
+            typeStreetColumn.DefaultValue = string.Empty;
             TypeStreetDataTable.Columns.Add(typeStreetColumn);
 
             DispancerDataSet.Tables.Add(TypeStreetDataTable);
@@ -409,17 +415,17 @@ namespace BAL.DataTables
 
             #region AddressTable
 
-            DataColumn addressColumn = new DataColumn("AddressID");
-            addressColumn.ReadOnly = false;
-            addressColumn.AllowDBNull = false;
-            addressColumn.AutoIncrement = true;
-            addressColumn.AutoIncrementSeed = -1;
-            addressColumn.AutoIncrementStep = -1;
-            addressColumn.DataType = typeof(Int32);
-            AddressDataTable.Columns.Add(addressColumn);
-            AddressDataTable.PrimaryKey = new DataColumn[1] { addressColumn };
+            //DataColumn addressColumn = new DataColumn("AddressID");
+            //addressColumn.ReadOnly = false;
+            //addressColumn.AllowDBNull = false;
+            //addressColumn.AutoIncrement = true;
+            //addressColumn.AutoIncrementSeed = -1;
+            //addressColumn.AutoIncrementStep = -1;
+            //addressColumn.DataType = typeof(Int32);
+            //AddressDataTable.Columns.Add(addressColumn);
+            //AddressDataTable.PrimaryKey = new DataColumn[1] { addressColumn };
 
-            addressColumn = new DataColumn("Region");
+            DataColumn addressColumn = new DataColumn("Region");
             addressColumn.ReadOnly = false;
             addressColumn.AllowDBNull = true;
             addressColumn.DataType = typeof(string);
@@ -486,6 +492,7 @@ namespace BAL.DataTables
             addressColumn.AllowDBNull = false;
             addressColumn.DataType = typeof(Int32);
             AddressDataTable.Columns.Add(addressColumn);
+            AddressDataTable.PrimaryKey = new DataColumn[1] { addressColumn };
 
             this.DispancerDataSet.Tables.Add(AddressDataTable);
 
@@ -536,18 +543,18 @@ namespace BAL.DataTables
             #region Register Tables
             #region RegisterTable
 
-            DataColumn regColumn = new DataColumn("RegisterID");
-            regColumn.ReadOnly = false;
-            regColumn.AllowDBNull = false;
-            regColumn.AutoIncrement = true;
-            regColumn.AutoIncrementSeed = -1;
-            regColumn.AutoIncrementStep = -1;
-            regColumn.DataType = typeof(Int32);
-            regColumn.Caption = "№";
-            RegisterDataTable.Columns.Add(regColumn);
-            RegisterDataTable.PrimaryKey = new DataColumn[1] { regColumn };
+            //DataColumn regColumn = new DataColumn("RegisterID");
+            //regColumn.ReadOnly = false;
+            //regColumn.AllowDBNull = false;
+            //regColumn.AutoIncrement = true;
+            //regColumn.AutoIncrementSeed = -1;
+            //regColumn.AutoIncrementStep = -1;
+            //regColumn.DataType = typeof(Int32);
+            //regColumn.Caption = "№";
+            //RegisterDataTable.Columns.Add(regColumn);
+            //RegisterDataTable.PrimaryKey = new DataColumn[1] { regColumn };
 
-            regColumn = new DataColumn("FirstRegister");
+            DataColumn regColumn = new DataColumn("FirstRegister");
             regColumn.ReadOnly = false;
             regColumn.AllowDBNull = true;
             regColumn.DataType = typeof(DateTime);
@@ -602,6 +609,7 @@ namespace BAL.DataTables
             regColumn.AllowDBNull = false;
             regColumn.DataType = typeof(Int32);
             RegisterDataTable.Columns.Add(regColumn);
+            RegisterDataTable.PrimaryKey = new DataColumn[1] { regColumn };
 
             regColumn = new DataColumn("WhyDeRegisterID");
             regColumn.ReadOnly = false;
@@ -672,6 +680,7 @@ namespace BAL.DataTables
             landColumn.DataType = typeof(string);
             landColumn.Caption = "№ участка";
             landColumn.MaxLength = 50;
+            landColumn.DefaultValue = string.Empty;
             LandDataTable.Columns.Add(landColumn);
 
             this.DispancerDataSet.Tables.Add(_landDataTable);
@@ -706,6 +715,7 @@ namespace BAL.DataTables
             regTypeColumn.DataType = typeof(string);
             regTypeColumn.MaxLength = 50;
             regTypeColumn.Caption = "Тип регистации";
+            regTypeColumn.DefaultValue = string.Empty;
             RegisterTypeDataTable.Columns.Add(regTypeColumn);
 
             regTypeColumn = new DataColumn("NotaBene");
@@ -757,6 +767,7 @@ namespace BAL.DataTables
             whyDeRegColumn.DataType = typeof(string);
             whyDeRegColumn.MaxLength = 50;
             whyDeRegColumn.Caption = "Причина снятия с учёта";
+            whyDeRegColumn.DefaultValue = string.Empty;
             WhyDeRegisterDataTable.Columns.Add(whyDeRegColumn);
 
             whyDeRegColumn = new DataColumn("NotaBene");
@@ -812,6 +823,7 @@ namespace BAL.DataTables
             chiperColumn.DataType = typeof(string);
             chiperColumn.MaxLength = 50;
             chiperColumn.Caption = "Шифр рецепта";
+            chiperColumn.DefaultValue = string.Empty;
             ChiperReceptDataTable.Columns.Add(chiperColumn);
 
             chiperColumn = new DataColumn("NotaBene");
@@ -844,6 +856,7 @@ namespace BAL.DataTables
             disabilityColumn.DataType = typeof(string);
             disabilityColumn.MaxLength = 100;
             disabilityColumn.Caption = "Название Группы инвалидности";
+            disabilityColumn.DefaultValue = string.Empty;
             DisabilityGroupDataTable.Columns.Add(disabilityColumn);
 
             disabilityColumn = new DataColumn("NotaBene");
@@ -877,6 +890,7 @@ namespace BAL.DataTables
             benefitsColumn.DataType = typeof(string);
             benefitsColumn.MaxLength = 100;
             benefitsColumn.Caption = "Название льготной категории";
+            benefitsColumn.DefaultValue = string.Empty;
             BenefitsDataTable.Columns.Add(benefitsColumn);
 
             benefitsColumn = new DataColumn("NotaBene");
@@ -893,17 +907,17 @@ namespace BAL.DataTables
 
             #region InvalidTable
 
-            DataColumn invalidColumn = new DataColumn("InvalidID");
-            invalidColumn.ReadOnly = false;
-            invalidColumn.AllowDBNull = false;
-            invalidColumn.AutoIncrement = true;
-            invalidColumn.AutoIncrementSeed = -1;
-            invalidColumn.AutoIncrementStep = -1;
-            invalidColumn.DataType = typeof(Int32);
-            InvalidDataTable.Columns.Add(invalidColumn);
-            InvalidDataTable.PrimaryKey = new DataColumn[1] { invalidColumn };
+            //DataColumn invalidColumn = new DataColumn("InvalidID");
+            //invalidColumn.ReadOnly = false;
+            //invalidColumn.AllowDBNull = false;
+            //invalidColumn.AutoIncrement = true;
+            //invalidColumn.AutoIncrementSeed = -1;
+            //invalidColumn.AutoIncrementStep = -1;
+            //invalidColumn.DataType = typeof(Int32);
+            //InvalidDataTable.Columns.Add(invalidColumn);
+            //InvalidDataTable.PrimaryKey = new DataColumn[1] { invalidColumn };
 
-            invalidColumn = new DataColumn("DisabilityGroupID");
+            DataColumn invalidColumn = new DataColumn("DisabilityGroupID");
             invalidColumn.ReadOnly = false;
             invalidColumn.AllowDBNull = true;
             invalidColumn.DataType = typeof(Int32);
@@ -936,6 +950,7 @@ namespace BAL.DataTables
             invalidColumn.AllowDBNull = false;
             invalidColumn.DataType = typeof(bool);
             invalidColumn.Caption = "Недееспособен";
+            invalidColumn.DefaultValue = 0;
             InvalidDataTable.Columns.Add(invalidColumn);
 
             invalidColumn = new DataColumn("DateIncapable");
@@ -950,6 +965,7 @@ namespace BAL.DataTables
             invalidColumn.AllowDBNull = false;
             invalidColumn.DataType = typeof(Int32);
             InvalidDataTable.Columns.Add(invalidColumn);
+            InvalidDataTable.PrimaryKey = new DataColumn[1] { invalidColumn };
 
 
             this.DispancerDataSet.Tables.Add(InvalidDataTable);
@@ -1016,7 +1032,7 @@ namespace BAL.DataTables
             //this.DispancerDataSet.Relations.Add(relation);
 
             fkc = new ForeignKeyConstraint("FK_InvalidBenefitsCategory_Invalid_InvID",
-            InvalidDataTable.Columns[0], InvalidBenefitsDataTable.Columns["InvID"]);
+            InvalidDataTable.Columns["CustomerID"], InvalidBenefitsDataTable.Columns["InvID"]);
             InvalidBenefitsDataTable.Constraints.Add(fkc);
             fkc.AcceptRejectRule = AcceptRejectRule.None;
             fkc.DeleteRule = Rule.Cascade;

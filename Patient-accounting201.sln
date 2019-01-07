@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOPB.BAL.Test", "SOPB.BAL.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOPB.GUI", "SOPB.GUI\SOPB.GUI.csproj", "{EF415ECA-EB7F-4FC9-88B1-3AD0A5421746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOPB.DAL.TEST", "SOPB.DAL.TEST\SOPB.DAL.TEST.csproj", "{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{EF415ECA-EB7F-4FC9-88B1-3AD0A5421746}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF415ECA-EB7F-4FC9-88B1-3AD0A5421746}.Release|x86.ActiveCfg = Release|Any CPU
 		{EF415ECA-EB7F-4FC9-88B1-3AD0A5421746}.Release|x86.Build.0 = Release|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Debug|x86.Build.0 = Debug|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADDF738A-37B5-44AA-AD1B-1E7117777CE7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

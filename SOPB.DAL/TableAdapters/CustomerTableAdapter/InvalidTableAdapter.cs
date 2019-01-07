@@ -40,9 +40,7 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
             //this._commandCollection[2].Parameters.Add(new SqlParameter("@PeriodInvalidity", SqlDbType.DateTime, 8,
             //    ParameterDirection.Input, true, 0, 0, "PeriodInvalidity", DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new SqlParameter("@ChiperReceptID", SqlDbType.Int, 4,
-                ParameterDirection.Input, true, 0, 0, "ChiperReceptID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int, 4,
-                ParameterDirection.Input, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
+                ParameterDirection.Input, true, 0, 0, "ChiperReceptID", DataRowVersion.Current, null));            
             this._commandCollection[1].Parameters.Add(new SqlParameter("@Incapable", SqlDbType.Bit, 1,
                 ParameterDirection.Input, false, 0, 0, "Incapable", DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new SqlParameter("@DateIncapable", SqlDbType.DateTime, 8,

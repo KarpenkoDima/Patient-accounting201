@@ -52,7 +52,7 @@ namespace BAL.AccessData
             }
             return DbType.Object;
         }
-        public static SqlDbType SqlTypeConversionKey(string fullName)
+        protected static SqlDbType SqlTypeConversionKey(string fullName)
         {
 
             var conversionKey = new Dictionary<string, SqlDbType>

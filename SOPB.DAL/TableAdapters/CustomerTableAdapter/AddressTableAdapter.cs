@@ -13,8 +13,7 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
             this._commandCollection = new SqlCommand[4];
             this._commandCollection[0] = new SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = string.Format(@"SELECT   V.[AddressID] 
-"
+            this._commandCollection[0].CommandText = string.Format(@"SELECT   V.[AddressID] "
                                                                    + "      ,V.[CustomerID] \n"
                                                                    + "      ,V.[Region] \n"
                                                                    + "      ,V.[City] \n"
@@ -36,8 +35,8 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
             base._commandCollection[1].CommandType = CommandType.StoredProcedure;
             base._commandCollection[1].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
                ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
-            base._commandCollection[1].Parameters.Add(new SqlParameter("@AddressID", SqlDbType.Int, 4,
-                ParameterDirection.InputOutput, false, 10, 0, "AddressID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int, 4,
+                ParameterDirection.Input, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
             base._commandCollection[1].Parameters.Add(new SqlParameter("@Region", SqlDbType.NChar, 50,
                 ParameterDirection.Input, true, 23, 3, "Region", DataRowVersion.Current, null));
             base._commandCollection[1].Parameters.Add(new SqlParameter("@Contry", SqlDbType.NChar, 50,
@@ -47,9 +46,7 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
             base._commandCollection[1].Parameters.Add(new SqlParameter("@AdminDivisionID", SqlDbType.Int, 8,
                 ParameterDirection.Input, false, 0, 0, "AdminDivisionID", DataRowVersion.Current, null));
             base._commandCollection[1].Parameters.Add(new SqlParameter("@TypeStreetID", SqlDbType.Int, 4,
-                ParameterDirection.Input, true, 0, 0, "TypeStreetID", DataRowVersion.Current, null));
-            base._commandCollection[1].Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int, 4,
-                ParameterDirection.Input, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
+                ParameterDirection.Input, true, 0, 0, "TypeStreetID", DataRowVersion.Current, null));            
             base._commandCollection[1].Parameters.Add(new SqlParameter("@NameStreet", SqlDbType.NVarChar, 100,
                 ParameterDirection.Input, true, 0, 0, "NameStreet", DataRowVersion.Current, null));
             base._commandCollection[1].Parameters.Add(new SqlParameter("@NumberHouse", SqlDbType.NVarChar, 5,

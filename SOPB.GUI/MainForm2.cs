@@ -314,26 +314,30 @@ namespace SOPB.GUI
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
         {
-            if (!isLoadData)
-            {
-                try
-                {
-                    CustomRepository<string> service = new CustomRepository<string>();
-                    BindingData(service.FillAll());
-                }
-                catch (Exception exception)
-                {
-                    Logger logger = LogManager.GetCurrentClassLogger();
-                    logger.Warn(exception.Message);
-                    MessageBox.Show("Произошла ошибка. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    this.Close();
-                }
-            }
+            //if (!isLoadData)
+            //{
+            //    try
+            //    {
+            //        CustomRepository<string> service = new CustomRepository<string>();
+            //        BindingData(service.FillAll());
+            //    }
+            //    catch (Exception exception)
+            //    {
+            //        Logger logger = LogManager.GetCurrentClassLogger();
+            //        logger.Warn(exception.Message);
+            //        MessageBox.Show("Произошла ошибка. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //        this.Close();
+            //    }
+            //}
 
-            comboBoxApppTpr.SelectedIndex = comboBoxGender.SelectedIndex = 0;
-            DataRowView row = _customerBindingSource.AddNew() as DataRowView;
-            row["FirstName"] = "Новое имя";
-            row["LastName"] = "Новое имя";
+            //if (comboBoxApppTpr.Items.Count > 0 && comboBoxGender.Items.Count > 0)
+            //{
+            //    comboBoxApppTpr.SelectedIndex = comboBoxGender.SelectedIndex = 0;
+            //}
+            //DataView view = _customerBindingSource.List as DataView;
+            //DataRowView row = view.AddNew();
+            ////row["FirstName"] = "Новое имя";
+            ////row["LastName"] = "Новое имя";
             _customerBindingSource.MoveLast();
             _customerBindingSource.EndEdit();
         }
@@ -356,7 +360,8 @@ namespace SOPB.GUI
             DataView view = _registerBindingSource.List as DataView;
 
             DataRowView row = view.AddNew();
-            row["LandID"] = 1;
+            _landBindingSource.MoveFirst();
+            row["LandID"] =   ((DataRowView)_landBindingSource.Current)["LandID"];
             row["CustomerID"] = ((DataRowView)_customerBindingSource.Current)[0];
             e.NewObject = (object)row;
             _registerBindingSource.MoveLast();
@@ -399,12 +404,12 @@ namespace SOPB.GUI
                 
                     service.Update(null);
                 }
-                BindingData(service.FillAll());
+                BindingData(service.FillAll());                
             }
             catch (Exception exception)
             {
                 Logger logger = LogManager.GetCurrentClassLogger();
-                logger.Warn(exception.Message);
+                logger.Warn(exception.Message);                
                 MessageBox.Show("Произошла ошибка. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
@@ -429,8 +434,9 @@ namespace SOPB.GUI
             catch (Exception exception)
             {
                 Logger logger = LogManager.GetCurrentClassLogger();
-                logger.Warn(exception.Message);
+                logger.Error(exception.Message);
                 MessageBox.Show("Произошла ошибка. Приложение будет закрыто.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                LogManager.Shutdown();
                 this.Close();
             }
         }
@@ -463,8 +469,8 @@ namespace SOPB.GUI
                     ((Control)sender).Text = registerText;
                 }
                 _registerBindingSource.EndEdit();
-                CustomRepository<string> repo = new CustomRepository<string>();
-                repo.Update(null);
+                //CustomRepository<string> repo = new CustomRepository<string>();
+                //repo.Update(null);
             }
         }
 
@@ -1313,9 +1319,23 @@ namespace SOPB.GUI
             service.Validation();           
         }
 
-        private void maskedTextBoxBirthOfDay_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
+        private void comboBoxFirstRegisterType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //if (isLoadData || _customerBindingSource.Count >= 1)
+            //{
+            //    if (_registerBindingSource.Current == null)
+            //        return;
+            //    //{
+            //    //    DataView view = _registerBindingSource.List as DataView;
+            //    //    DataRowView row = view.AddNew();
+            //    //    row["CustomerID"] = ((DataRowView)_customerBindingSource.Current)[0];
+            //    //    _registerBindingSource.List.Add(row);
+            //    //    // ((Control)sender).Text = registerText;
+            //    //}
+            //    //_registerBindingSource.EndEdit();
+            //    //CustomRepository<string> repo = new CustomRepository<string>();
+            //    //repo.Update(null);
+            //}
         }
     }
 }

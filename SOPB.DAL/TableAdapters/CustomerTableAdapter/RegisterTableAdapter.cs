@@ -27,55 +27,55 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
                                                  + "  FROM [dbo].[vGetRegister] AS V"
                                                  + "  INNER JOIN dbo.{0} AS c \n"
                                                  + "  ON c.CustomerID = V.CustomerID \n", "vGetCustomers");
-            this._commandCollection[0].CommandType = CommandType.Text;
-        
-            this._commandCollection[1] = new SqlCommand();
-            this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "uspSaveRegister";
-            this._commandCollection[1].CommandType = CommandType.StoredProcedure;
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
-                ParameterDirection.InputOutput, false, 10, 0, "RegisterID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@FirstRegister", SqlDbType.DateTime, 8,
-                ParameterDirection.Input, true, 23, 3, "FirstRegister", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@FirstDeregister", SqlDbType.DateTime, 8,
-                ParameterDirection.Input, true, 23, 3, "FirstDeregister", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@SecondRegister", SqlDbType.DateTime, 8,
-                ParameterDirection.Input, true, 23, 3, "SecondRegister", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@SecondDeRegister", SqlDbType.DateTime, 8,
-               ParameterDirection.Input, true, 23, 3, "SecondDeRegister", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@Diagnosis", SqlDbType.NVarChar, 10,
-                ParameterDirection.Input, true, 0, 0, "Diagnosis", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@RegisterTypeID", SqlDbType.Int, 4,
-                 ParameterDirection.Input, true, 0, 0, "RegisterTypeID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@SecondRegisterTypeID", SqlDbType.Int, 4,
-                ParameterDirection.Input, true, 0, 0, "SecondRegisterTypeID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@CustomerID", SqlDbType.Int, 4,
-                ParameterDirection.Input, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@WhyDeRegister", SqlDbType.Int, 4,
-                ParameterDirection.Input, true, 0, 0, "WhyDeRegisterID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@WhySecondDeRegister", SqlDbType.Int, 4,
-                ParameterDirection.Input, true, 0, 0, "WhySecondDeRegisterID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@LandID", SqlDbType.Int, 4,
-                ParameterDirection.Input, false, 10, 0, "LandID", DataRowVersion.Current, null));
-            this._commandCollection[1].Parameters.Add(new SqlParameter("@NotaBene", SqlDbType.NText, 2000,
-                ParameterDirection.Input, true, 10, 0, "NotaBene", DataRowVersion.Current, null));
+            base._commandCollection[0].CommandType = CommandType.Text;
             
-            this._commandCollection[2] = new SqlCommand();
-            this._commandCollection[2].CommandText = "dbo.uspDeleteRegister";
-            this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandType = CommandType.StoredProcedure;
-            this._commandCollection[2].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
-                ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
-            this._commandCollection[2].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
-                ParameterDirection.Input, false, 10, 0, "RegisterID", DataRowVersion.Current, null));
-
-            this._commandCollection[3] = new SqlCommand();
-            this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "dbo.uspGetRegister";
-            this._commandCollection[3].CommandType = CommandType.StoredProcedure;
-            this._commandCollection[3].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
-                ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
-            this._commandCollection[3].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
+            base._commandCollection[1] = new SqlCommand();
+            base._commandCollection[1].Connection = this.Connection;
+            base._commandCollection[1].CommandText = "uspSaveRegister";
+            base._commandCollection[1].CommandType = CommandType.StoredProcedure;
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
+               ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
+            ParameterDirection.Input, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@FirstRegister", SqlDbType.DateTime, 8,
+            ParameterDirection.Input, true, 23, 3, "FirstRegister", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@FirstDeregister", SqlDbType.DateTime, 8,
+            ParameterDirection.Input, true, 23, 3, "FirstDeregister", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@SecondRegister", SqlDbType.DateTime, 8,
+            ParameterDirection.Input, true, 23, 3, "SecondRegister", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@SecondDeRegister", SqlDbType.DateTime, 8,
+            ParameterDirection.Input, true, 23, 3, "SecondDeRegister", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@Diagnosis", SqlDbType.NVarChar, 10,
+            ParameterDirection.Input, true, 0, 0, "Diagnosis", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@RegisterTypeID", SqlDbType.Int, 4,
+             ParameterDirection.Input, true, 0, 0, "RegisterTypeID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@SecondRegisterTypeID", SqlDbType.Int, 4,
+            ParameterDirection.Input, true, 0, 0, "SecondRegisterTypeID", DataRowVersion.Current, null));           
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@WhyDeRegister", SqlDbType.Int, 4,
+            ParameterDirection.Input, true, 0, 0, "WhyDeRegisterID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@WhySecondDeRegister", SqlDbType.Int, 4,
+            ParameterDirection.Input, true, 0, 0, "WhySecondDeRegisterID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@LandID", SqlDbType.Int, 4,
+            ParameterDirection.Input, false, 10, 0, "LandID", DataRowVersion.Current, null));
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@NotaBene", SqlDbType.NText, 2000,
+            ParameterDirection.Input, true, 10, 0, "NotaBene", DataRowVersion.Current, null));
+            
+            base._commandCollection[2] = new SqlCommand();
+            base._commandCollection[2].CommandText = "dbo.uspDeleteRegister";
+            base._commandCollection[2].Connection = this.Connection;
+            base._commandCollection[2].CommandType = CommandType.StoredProcedure;
+            base._commandCollection[2].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
+            ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
+            base._commandCollection[2].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
+            ParameterDirection.Input, false, 10, 0, "RegisterID", DataRowVersion.Current, null));
+            
+            base._commandCollection[3] = new SqlCommand();
+            base._commandCollection[3].Connection = this.Connection;
+            base._commandCollection[3].CommandText = "dbo.uspGetRegister";
+            base._commandCollection[3].CommandType = CommandType.StoredProcedure;
+            base._commandCollection[3].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
+            ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
+            base._commandCollection[3].Parameters.Add(new SqlParameter("@RegisterID", SqlDbType.Int, 4,
                 ParameterDirection.Input, false, 10, 0, "RegisterID", DataRowVersion.Current, null));
 
             this._commandCollection[4] = new SqlCommand();
