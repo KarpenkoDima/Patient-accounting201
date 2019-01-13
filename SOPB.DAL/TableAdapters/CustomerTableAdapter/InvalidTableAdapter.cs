@@ -29,8 +29,10 @@ namespace SOPB.Accounting.DAL.TableAdapters.CustomerTableAdapter
             this._commandCollection[1].Connection = this.Connection;
             this._commandCollection[1].CommandText = "uspSaveInvalid";
             this._commandCollection[1].CommandType = CommandType.StoredProcedure;
+            base._commandCollection[1].Parameters.Add(new SqlParameter("@RETURN_VALUE", SqlDbType.Int, 4,
+               ParameterDirection.ReturnValue, false, 10, 0, null, DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new SqlParameter("@InvalidID", SqlDbType.Int, 4,
-                ParameterDirection.InputOutput, false, 10, 0, "InvalidID", DataRowVersion.Current, null));
+                ParameterDirection.InputOutput, false, 10, 0, "CustomerID", DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new SqlParameter("@DisabilityGroupID", SqlDbType.Int, 4,
                 ParameterDirection.Input, true, 23, 3, "DisabilityGroupID", DataRowVersion.Current, null));
             this._commandCollection[1].Parameters.Add(new SqlParameter("@DataInvalidity", SqlDbType.DateTime, 8,

@@ -569,7 +569,7 @@ namespace BAL.AccessData
                 throw;
             }
         }
-
+        
         private static void WhereClasure(string criteria, object[] parameters, string predicate)
         {
             if (parameters.Length == 2 && string.Equals(predicate.ToUpper(), "BETWEEN"))

@@ -13,11 +13,19 @@ namespace SOPB.GUI.DialogForms
     public partial class FindForm : Form
     {
         public string LastName { get; private set; }
-        public FindForm(string name = "Фамилия")
+        public string[]  OtherFields { get; private set; }
+        public FindForm(string name, params string[] other)
         {
             InitializeComponent();
             label1.Text = name;
             this.Text = "Поиск: " + name;
+            if (other.Length > 0)
+            {
+                labelOther.Visible = true;
+                labelOther.Text = other[0];
+                textBoxOtherField.Visible = true;
+                OtherFields = other;
+            }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -29,6 +37,7 @@ namespace SOPB.GUI.DialogForms
                 if (this.DialogResult == DialogResult.No)
                 {
                     LastName = String.Empty;
+                    OtherFields[0] = String.Empty;
                     this.Close();
                 }
 
@@ -36,6 +45,7 @@ namespace SOPB.GUI.DialogForms
             else
             {
                  LastName = textBoxLastName.Text;
+                if (OtherFields != null ) OtherFields[0] = textBoxOtherField.Text;
                 DialogResult = DialogResult.OK;
                 this.Close();
             }

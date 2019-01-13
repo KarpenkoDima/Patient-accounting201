@@ -23,8 +23,7 @@ namespace BAL.ORM.Repository
         {
             CustomerAccess.GetDataByCriteria(criteria, values);
             return CustomerAccess.GetData();
-        }
-
+        }        
         public object FindByGlossary(int id, string name)
         {
             CustomerAccess.GetCustomersByGlossary(name, id);

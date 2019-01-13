@@ -33,13 +33,15 @@
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.FindGroupBox = new System.Windows.Forms.GroupBox();
+            this.textBoxOtherField = new System.Windows.Forms.TextBox();
+            this.labelOther = new System.Windows.Forms.Label();
             this.FindGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 61);
+            this.label1.Location = new System.Drawing.Point(6, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 0;
@@ -47,7 +49,7 @@
             // 
             // textBoxLastName
             // 
-            this.textBoxLastName.Location = new System.Drawing.Point(90, 58);
+            this.textBoxLastName.Location = new System.Drawing.Point(90, 88);
             this.textBoxLastName.Name = "textBoxLastName";
             this.textBoxLastName.Size = new System.Drawing.Size(158, 20);
             this.textBoxLastName.TabIndex = 1;
@@ -80,6 +82,8 @@
             this.FindGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FindGroupBox.Controls.Add(this.textBoxOtherField);
+            this.FindGroupBox.Controls.Add(this.labelOther);
             this.FindGroupBox.Controls.Add(this.textBoxLastName);
             this.FindGroupBox.Controls.Add(this.buttonOk);
             this.FindGroupBox.Controls.Add(this.label1);
@@ -90,6 +94,24 @@
             this.FindGroupBox.TabIndex = 4;
             this.FindGroupBox.TabStop = false;
             this.FindGroupBox.Text = "Критерий поиска";
+            // 
+            // textBoxOtherField
+            // 
+            this.textBoxOtherField.Location = new System.Drawing.Point(90, 36);
+            this.textBoxOtherField.Name = "textBoxOtherField";
+            this.textBoxOtherField.Size = new System.Drawing.Size(158, 20);
+            this.textBoxOtherField.TabIndex = 5;
+            this.textBoxOtherField.Visible = false;
+            // 
+            // labelOther
+            // 
+            this.labelOther.AutoSize = true;
+            this.labelOther.Location = new System.Drawing.Point(7, 39);
+            this.labelOther.Name = "labelOther";
+            this.labelOther.Size = new System.Drawing.Size(57, 13);
+            this.labelOther.TabIndex = 4;
+            this.labelOther.Text = "Addd Field";
+            this.labelOther.Visible = false;
             // 
             // FindForm
             // 
@@ -119,5 +141,7 @@
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.GroupBox FindGroupBox;
+        private System.Windows.Forms.TextBox textBoxOtherField;
+        private System.Windows.Forms.Label labelOther;
     }
 }

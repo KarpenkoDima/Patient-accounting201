@@ -142,7 +142,7 @@ namespace SOPB.GUI
 
             _errorBindingSource.DataSource = _customerBindingSource;
             _errorBindingSource.DataMember = "FK_Error_Customer_CustomerID";
-            
+
             textBoxError.DataBindings.Add("Text", _errorBindingSource, "Error");
 
             comboBoxApppTpr.DataSource = _apppTprBindingSource;
@@ -158,7 +158,7 @@ namespace SOPB.GUI
             comboBoxGender.DisplayMember = "Name";
 
             checkBoxArch.DataBindings.Clear();
-            checkBoxArch.DataBindings.Add("Checked", _customerBindingSource, "Arch");           
+            checkBoxArch.DataBindings.Add("Checked", _customerBindingSource, "Arch");
             //////////////////////////////////////////////////////////////////////////////////
             /// 
             _adminDivisionBindingSource.DataSource = data;
@@ -173,10 +173,10 @@ namespace SOPB.GUI
             textBoxNameStreet.DataBindings.Add("Text", _addressBindingSource, "NameStreet");
             textBoxNumberApartment.DataBindings.Clear();
             textBoxNumberApartment.DataBindings.Add("Text", _addressBindingSource, "NumberApartment");
-            textBoxNumberHouse.DataBindings.Clear();
-            textBoxNumberHouse.DataBindings.Add("Text", _addressBindingSource, "NumberHouse");
+            textBoxNumberBlock.DataBindings.Clear();
+            textBoxNumberBlock.DataBindings.Add("Text", _addressBindingSource, "NumberHouse");
             textBoxCity.DataBindings.Clear();
-            textBoxCity.DataBindings.Add("Text", _addressBindingSource, "City");            
+            textBoxCity.DataBindings.Add("Text", _addressBindingSource, "City");
             _addressBindingSource.AddingNew += AddressBindingSourceOnAddingNew;
             //////////////////////////////////////////////////////////////////////////////////////////
             /// Binding data to Register contrls
@@ -310,6 +310,33 @@ namespace SOPB.GUI
             if (_customerBindingSource.Count > 0)
                 isLoadData = true;
             else isLoadData = false;
+
+            //treeViewFilter.Nodes.Clear();
+            if (treeViewFilter.Nodes.Count == 0)
+            {
+                DataView view = _landBindingSource.List as DataView;
+                TreeNode lands = new TreeNode("Участки");
+                lands.Tag = "Land";
+                foreach (DataRow item in view.Table.Rows)
+                {
+                    TreeNode node = new TreeNode();
+                    node.Text = item["name"].ToString();
+                    node.Tag = item["LandID"].ToString();
+                    lands.Nodes.Add(node);
+                }
+                view = _apppTprBindingSource.List as DataView;
+                TreeNode appptpr = new TreeNode("АППП/ТПР");
+                appptpr.Tag = "ApppTpr";
+                foreach (DataRow item in view.Table.Rows)
+                {
+                    TreeNode node = new TreeNode();
+                    node.Text = item["name"].ToString();
+                    node.Tag = item["ApppTPRID"].ToString();
+                    appptpr.Nodes.Add(node);
+                }
+                treeViewFilter.Nodes.Add(lands);
+                treeViewFilter.Nodes.Add(appptpr);
+            }
         }
 
         private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
@@ -866,10 +893,11 @@ namespace SOPB.GUI
         {
             try
             {
-                FindForm find = new FindForm();
+                FindForm find = new FindForm("Фамлия");
                 if (find.ShowDialog() == DialogResult.OK)
                 {
                     string lName = find.LastName;
+                    //string criteria = find.OtherFields[0];
                     CustomRepository<string> service = new CustomRepository<string>();
                     if (isLoadData)
                     {
@@ -892,7 +920,7 @@ namespace SOPB.GUI
 
             try
             {
-                FindForm find = new FindForm();
+                FindForm find = new FindForm("Фамилия");
                 if (find.ShowDialog() == OK)
                 {
                     string lName = find.LastName;     
@@ -1001,15 +1029,16 @@ namespace SOPB.GUI
         {
             try
             {
-                FindForm find = new FindForm("Адрес");
+                FindForm find = new FindForm("Адрес", "Город");
                 if (find.ShowDialog() == OK)
                 {
                     string name = find.LastName;
+                    string city = find.OtherFields[0];
                     CustomRepository<string> customer = new CustomRepository<string>();
-                    if (isLoadData) customer.FindBy("Address", name);
+                    if (isLoadData) customer.FindBy("Address", city, name);
                     else
                     {
-                        BindingData(customer.FindBy("Address", name));
+                        BindingData(customer.FindBy("Address", city, name));
                     }
                 }
             }
@@ -1024,11 +1053,16 @@ namespace SOPB.GUI
 
         private void findByInvalidsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string name =  ((ToolStripMenuItem)sender).Tag.ToString();
+            string name = ((ToolStripMenuItem)sender).Tag.ToString();
             FindByGlossary find = new FindByGlossary(GetSource(name), name);
             find.ShowDialog();
-           
+
             int id = find._ID;
+            FilterByGlossary(name, id);
+        }
+
+        private void FilterByGlossary(string name, int id)
+        {
             CustomRepository<string> customer = new CustomRepository<string>();
             try
             {
@@ -1337,5 +1371,19 @@ namespace SOPB.GUI
             //    //repo.Update(null);
             //}
         }
+
+        private void treeViewFilter_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Parent != null)
+            {
+                //switch()
+                //e.Node.Parent.ta
+                string name = e.Node.Parent.Tag.ToString();
+                int id = Int32.Parse(e.Node.Tag.ToString());
+                FilterByGlossary(name, id);                
+            }
+        }
+
+       
     }
 }
